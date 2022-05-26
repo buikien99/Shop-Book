@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Trang Thống Kê</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        {{> Admin/PhanDau}}
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+
+
+                    <!-- Topbar Navbar -->
+                    {{>Admin/PhanTop}}
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-gray-800">Báo Cáo, Thống Kê</h1>
+
+                        </div>
+
+                        <!-- Content Row -->
+
+                        <div class="row">
+
+                            <!-- Earnings (Monthly) Card Example -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Doanh Thu (Tháng)</div>
+
+                                                <div id="s" class="h5 mb-0 font-weight-bold text-gray-800"> VNĐ</div>
+                                                <script>
+                                                    const doanhThuThang = {{{ doanhThuThang dataDoanhThu 3}}}
+
+                                                </script>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Earnings (Monthly) Card Example -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                    Tổng Doanh Thu (Năm)</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{number_format
+                                                    tongDoanhThu}} VNĐ</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Earnings (Monthly) Card Example -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Đơn
+                                                    Hàng
+                                                </div>
+                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{don_hang}}
+                                                </div>
+                                                <div class="col-auto">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{!-- nhan data --}}
+                            <script>
+                                
+                                const dataDoanhThu = [{{{ array dataDoanhThu }}}];
+                                var doanhThu_BanSach = dataDT(dataDoanhThu);
+                                const dataDonHang = [{{{ array dataDonHang }}}];
+                                var soLuong_DonHang = dataDT(dataDonHang);
+                                const dataTaiKhoan = [{{{ array dataTaiKhoan }}}];
+                                var soLuong_TaiKhoan = dataDT(dataTaiKhoan);
+
+                                console.log(soLuong_TaiKhoan);
+                                function dataDT(dataDoanhThu) {
+                                    let c = 0;
+                                    const len = dataDoanhThu.length - 1;
+                                    const thangCuoi = dataDoanhThu[len].thang;
+                                    let doanhThu_BanSach = [];
+                                    for (var i = 1; i <= thangCuoi; i++) {
+                                        if (dataDoanhThu[c].thang === i) {
+                                            doanhThu_BanSach.push(dataDoanhThu[c].tong_doanh_thu);
+                                            c++;
+                                            continue;
+                                        }
+                                        doanhThu_BanSach.push(0);
+                                    }
+                                    return doanhThu_BanSach;
+                                }
+
+                            </script>
+
+                            <!-- Pending Requests Card Example -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-warning shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                    Khách Hàng (Đăng Ký)</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{taiKhoan}}</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-7">
+
+                                <!-- SoDo Doanh Thu -->
+                                <div class="card shadow mb-4">
+
+                                    <div
+                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-primary">SƠ ĐỒ DOANH THU</h6>
+                                        <div class="dropdown">
+
+                                        {{!-- THANG --}}
+                                            <button class="btn btn-success dropdown-toggle" type="button"
+                                                 id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                               Năm 2022
+                                            </button>
+                                            <div class="dropdown-menu"   aria-labelledby="dropdownMenuButton" id="thang">
+                                                
+
+                                            </div>
+                                            <script>
+                                                function boiDam(){
+                                                    console.log('hieu');
+                                                }
+                                                const thang = document.getElementById('thang');
+                                                const tenThang = document.getElementById('dropdownMenuButton');
+                                                
+                                                thang.innerHTML += `<a class="dropdown-item " onclick='guiThang(0)'>Năm 2022</a>`;
+                                                for(var i = 1 ; i <= 12; i++){
+                                                    thang.innerHTML += `<a class="dropdown-item " onclick='guiThang(${i})'>Tháng ${i}</a>`;
+                                                }
+                                                
+                                            </script>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="chart-area">
+                                            <div class="chartjs-size-monitor">
+                                                <div class="chartjs-size-monitor-expand">
+                                                    <div class=""></div>
+                                                </div>
+                                                <div class="chartjs-size-monitor-shrink">
+                                                    <div class=""></div>
+                                                </div>
+                                            </div>
+                                            <canvas id="myAreaChart"
+                                                style="display: block; height: 500px; width: 782px;" width="977"
+                                                height="400" class="chartjs-render-monitor"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{!-- SoDo don hang --}}
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">SƠ ĐỒ ĐƠN HÀNG</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-bar">
+                                            <div class="chartjs-size-monitor">
+                                                <div class="chartjs-size-monitor-expand">
+                                                    <div class=""></div>
+                                                </div>
+                                                <div class="chartjs-size-monitor-shrink">
+                                                    <div class=""></div>
+                                                </div>
+                                            </div>
+                                            <canvas id="myBarChart" width="977" height="400"
+                                                style="display: block; height: 320px; width: 782px;"
+                                                class="chartjs-render-monitor"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{!-- SoDo tai khoan --}}
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">SƠ ĐỒ KHÁCH HÀNG ĐĂNG KÝ</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-bar">
+                                            <div class="chartjs-size-monitor">
+                                                <div class="chartjs-size-monitor-expand">
+                                                    <div class=""></div>
+                                                </div>
+                                                <div class="chartjs-size-monitor-shrink">
+                                                    <div class=""></div>
+                                                </div>
+                                            </div>
+                                            <canvas id="myAccountChart" width="977" height="400"
+                                                style="display: block; height: 320px; width: 782px;"
+                                                class="chartjs-render-monitor"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+                        <!-- Content Row -->
+
+
+
+
+
+                    </div>
+
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            {{> Admin/PhanCuoi }}
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{> Admin/PhanJS}}
+</body>
+
+</html>
